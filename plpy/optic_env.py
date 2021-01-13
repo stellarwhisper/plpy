@@ -9,15 +9,16 @@ class Multilayer(object):
 
     """
 
-    def __init__(self, layer_names=[], thicknesses=[], n=[[]], vac_wavelenth=[]):
+    def __init__(self, layer_names=[], thicknesses=[], n=[[]], vac_wavelenth=[],
+                 **kwargs):
         """
         The object Multilayer receives only necessory components for
         construct optical multilayer configuration to calculate
         """
 
-        if np.shape(self.layer_names) == np.shape(self.thicknesses):
-            if np.shape(self.thicknesses) == (np.shape(self.n.y)[0],):
-                self.layers = np.shape(self.layer_names)[0]
+        if np.shape(layer_names) == np.shape(thicknesses):
+            if np.shape(thicknesses) == (np.shape(n)[0],):
+                self.layers = np.shape(layer_names)[0]
             else:
                 raise ValueError("thicknesses and refractive indecies array must be equal "
                                  "in length along 0 axis %s %s" %
@@ -29,7 +30,8 @@ class Multilayer(object):
         self.layer_names = np.array(layer_names)
         self.thicknesses = np.array(thicknesses)
         self.n = interp1d(vac_wavelenth, n)
-
+        if 'active_layer' in kwargs:
+            self.active_layer = kwargs['active_layer']
 
 
     def __repr__(self):
@@ -58,7 +60,8 @@ class Multilayer(object):
             self = Multilayer(layer_names, thicknesses, n, vac_wavelength)
             return self
         else:
-            raise TypeError('can only concatenate Multilayer (not "%s") to Multilayer' % (str(type(other).__name__)))
+            raise TypeError('can only concatenate Multilayer (not "%s") to Multilayer'
+                            % (str(type(other).__name__)))
 
     def pop(self, index):
         pop_item = self[index]
@@ -69,4 +72,5 @@ class Multilayer(object):
         return pop_item
 
 a = Multilayer(['ITO', 'PEDOT'], [200, 50],
-               [[1.5+0.01j, 1.5+0.001j, 1.6+0.001j], [1.3+0.05j, 1.4+0.05j, 1.5+0.05j]], [300, 500, 700])
+               [[1.5+0.01j, 1.5+0.001j, 1.6+0.001j], [1.3+0.05j, 1.4+0.05j, 1.5+0.05j]],
+               [300, 500, 700], active_layer = 2 )
