@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="353eff47-2e98-44ef-b819-6c1cd69355bf" name="Default Changelist" comment="Set initiative multilayer structure object">
+    <list default="true" id="353eff47-2e98-44ef-b819-6c1cd69355bf" name="Default Changelist" comment="Set multilayer object could be calcuated with itselves.">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/plpy/optic_env.py" beforeDir="false" afterPath="$PROJECT_DIR$/plpy/optic_env.py" afterDir="false" />
     </list>
@@ -28,6 +28,9 @@
       <filtered-out-file-type name="COMMIT_BY_MESSAGE" />
     </file-type-list>
   </component>
+  <component name="HighlightingSettingsPerFile">
+    <setting file="file://$PROJECT_DIR$/plpy/optic_env.py" root0="FORCE_HIGHLIGHTING" />
+  </component>
   <component name="ProjectId" id="1n0VlNQPcPGa7mCZ7MicWPz66w9" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
@@ -39,7 +42,7 @@
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../../../../../../Program Files/Anaconda3/Scripts/conda.exe" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../PycharmProjects/oledpy/oledpy/dipole_emission.py" />
     <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
   </component>
   <component name="PyConsoleOptionsProvider">
@@ -110,7 +113,8 @@
       <updated>1610527145387</updated>
       <workItem from="1610527154677" duration="3536000" />
       <workItem from="1610591935087" duration="1544000" />
-      <workItem from="1610597790992" duration="15093000" />
+      <workItem from="1610597790992" duration="15749000" />
+      <workItem from="1610678040467" duration="7571000" />
     </task>
     <task id="LOCAL-00001" summary="Set initiative multilayer structure object">
       <created>1610529416758</created>
@@ -140,7 +144,14 @@
       <option name="project" value="LOCAL" />
       <updated>1610604384572</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="Set multilayer object could be calcuated with itselves.">
+      <created>1610612960309</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1610612960309</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -160,9 +171,10 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Set initiative multilayer structure object" />
-    <option name="LAST_COMMIT_MESSAGE" value="Set initiative multilayer structure object" />
+    <MESSAGE value="Set multilayer object could be calcuated with itselves." />
+    <option name="LAST_COMMIT_MESSAGE" value="Set multilayer object could be calcuated with itselves." />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/plpy$optic_env.coverage" NAME="optic_env Coverage Results" MODIFIED="1610612817451" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/plpy" />
+    <SUITE FILE_PATH="coverage/plpy$optic_env.coverage" NAME="optic_env Coverage Results" MODIFIED="1610701565479" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/plpy" />
   </component>
 </project>

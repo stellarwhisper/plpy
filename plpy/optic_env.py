@@ -1,5 +1,6 @@
 import pandas as pd
 import numpy as np
+import copy
 from scipy.interpolate import interp1d
 
 class Multilayer(object):
@@ -34,12 +35,15 @@ class Multilayer(object):
         else:
             raise ValueError("layer names and thicknesses array must be equal in length %s %s" %
                              (np.shape(layer_names), np.shape(thicknesses)))
-        if np.shape(thicknesses)[0] == np.shape(n)[0]:
+        if isinstance(n, interp1d):
             self.layers = np.shape(layer_names)[0]
         else:
-            raise ValueError("thicknesses and refractive indecies array must be equal "
-                             "in length along 0 axis %s %s" %
-                             (np.shape(thicknesses), np.shape(n)))
+            if np.shape(thicknesses)[0] == np.shape(n)[0]:
+                self.layers = np.shape(layer_names)[0]
+            else:
+                raise ValueError("thicknesses and refractive indecies array must be equal "
+                                 "in length along 0 axis %s %s" %
+                                 (np.shape(thicknesses), np.shape(n)))
 
         # kwargs
         if 'active_layer' in kwargs:
@@ -48,17 +52,28 @@ class Multilayer(object):
         # declare Multilayer parameters
         self.layer_names = np.array(layer_names)
         self.thicknesses = np.array(thicknesses)
-        self.n = interp1d(vac_wavelenth, n)
+        if isinstance(n, interp1d):
+            self.n = n
+        else:
+            self.n = interp1d(vac_wavelenth, n)
 
 
 
     def __repr__(self):
+        """
+
+        :return: string
+        """
         out_list = list(self.layer_names)
         for i in range(self.layers):
             out_list[i] += '_%d' % (self.thicknesses[i])
         return '/ '.join(out_list)
 
     def __str__(self):
+        """
+
+        :return:
+        """
         #string = ''
         out_list = []
         for i in range(self.layers):
@@ -80,28 +95,44 @@ class Multilayer(object):
         return '\n'.join(out_list)
 
     def __getitem__(self, val):
+        """
+
+        :param val:
+        :return:
+        """
         #print(val)
         if isinstance(val, slice):
-            self.layer_names = self.layer_names[val]
-            self.thicknesses = self.thicknesses[val]
-            self.n = interp1d(self.n.x, self.n.y[val])
-            self.layers = np.shape(self.layer_names)[0]
-            return self
+            subset = copy.copy(self)
+            subset.layer_names = subset.layer_names[val]
+            subset.thicknesses = subset.thicknesses[val]
+            subset.n = interp1d(subset.n.x, subset.n.y[val])
+            subset.layers = np.shape(subset.layer_names)[0]
+
+            return subset
 
         elif isinstance(val, int):
-            if val < self.layers:
-                indexed_layer = Multilayer([self.layer_names[val]],
-                                           [self.thicknesses[val]],
-                                           # if the object could receive interp1d
-                                           # scipy object, replace here
-                                           [self.n.y[val]], self.n.x)
-                return indexed_layer
-            else:
+            # check val
+            if val >= self.layers:
                 raise IndexError("index out of range")
+
+            indexed = Multilayer([self.layer_names[val]],
+                                 [self.thicknesses[val]],
+                                 # if the object could receive interp1d
+                                 # scipy object, replace here
+                                 [self.n.y[val]], self.n.x)
+
+            return indexed
+
         else:
+            # val is not slice or integer, then the method could not process
             raise TypeError("Invalid index type (%s)" % (type(val).__name__))
 
     def __add__(self, other):
+        """
+
+        :param other:
+        :return:
+        """
         if isinstance(other, Multilayer):
             #print('add "%s" and "%s"' % (self.__repr__(), other.__repr__()))
             layer_names = np.append(self.layer_names, other.layer_names)
@@ -115,17 +146,27 @@ class Multilayer(object):
             raise TypeError('can only concatenate Multilayer (not "%s") to Multilayer'
                             % (type(other).__name__))
 
-    def __mul__(self, other):
-        if isinstance(other, int):
+    def __mul__(self, val):
+        """
+
+        :param val:
+        :return:
+        """
+        if isinstance(val, int):
             #print('multiplies "%s" by %d' % (self.__repr__(), other))
             result = self[::1]
-            for i in range(other-1):
+            for i in range(val - 1):
                 result = result + self
             return result
         else:
             raise TypeError("Invalid multiplization type (%s)" % (type(val).__name__))
 
     def __sub__(self, other):
+        """
+
+        :param other:
+        :return:
+        """
         if isinstance(other, Multilayer):
             rep_self, rep_other = self.__repr__(), other.__repr__()
             print('substract "%s" from "%s"' % (rep_other, rep_self))
@@ -133,13 +174,19 @@ class Multilayer(object):
             if index == -1:
                 raise LookupError('The structure "%s" does not include "%s"' % (rep_self, rep_other))
             else:
-
+                """
                 layer_names = np.append(self.layer_names[:index], self.layer_names[index+other.layers:])
                 thicknesses = np.append(self.thicknesses[:index], self.thicknesses[index+other.layers:])
                 # TODO: interpolation is need to the addition of n and wavelength
                 n = np.append(self.n.y[:index], self.n.y[index+other.layers:], axis=0)
                 vac_wavelength = self.n.x  # it is needed to correct x
                 result = Multilayer(layer_names, thicknesses, n, vac_wavelength)
+                """
+                result = copy.copy(self)
+                len = other.layers
+                for i in range(len):
+                    result.pop(index + len - 1 - i)
+
                 return result
 
     def __floordiv__(self, other):
@@ -165,16 +212,25 @@ class Multilayer(object):
             else:
                 raise  ValueError("The Multilayer could not be divide by %d" % (other))
         else:
-            raise TypeError("Invalid floor division type (%s)" % (type(val).__name__))
+            raise TypeError("Invalid floor division type (%s)" % (type(other).__name__))
 
 
     def __reversed__(self):
+        """
+
+        :return:
+        """
         self.layer_names = self.layer_names[::-1]
         self.thicknesses = self.thicknesses[::-1]
         self.n = interp1d(self.n.x, self.n.y[::-1])
         return self
 
     def pop(self, index):
+        """
+
+        :param index:
+        :return:
+        """
         print("pop %dth layer" % (index+1))
         pop_item = self[index]
         self.layers -= 1
@@ -192,4 +248,4 @@ a = Multilayer(['ITO', 'PEDOT'], [200, 50],
 
 b = np.complex128(1j)
 
-a*3
+b = a*3
