@@ -58,7 +58,6 @@ class Multilayer(object):
         """if self.layer_names.dtype.kind != "U":
             raise ValueError("layer name must be string, not %s" % (np.array(layer_names).dtype))"""
 
-
     def __repr__(self):
         """
         Privides representative structure of the object
@@ -86,9 +85,12 @@ class Multilayer(object):
         :param val:
         :return: index/sliced object
         """
+        if not (isinstance(val, int) or isinstance(val, slice)):
+            raise TypeError('parameter must be int or slice not %s' % (type(val)))
         if isinstance(val, int):
             if val >= self.layers:
                 raise IndexError('index %d is out of bounds for the object %s layers' % (val, self.layers))
+
         indexed = Multilayer(self.layer_names[val], self.thicknesses[val], self.n.y[val],
                              vac_wavelength = self.n.x)
         return indexed
@@ -99,18 +101,18 @@ class Multilayer(object):
         :param other:
         :return: merged layers
         """
-        if isinstance(other, Multilayer):
-            # print('add "%s" and "%s"' % (self.__repr__(), other.__repr__()))
-            layer_names = np.append(self.layer_names, other.layer_names)
-            thicknesses = np.append(self.thicknesses, other.thicknesses)
-            #TODO: interpolation is need to the addition of n and wavelength
-            n = np.append(self.n.y, other.n.y, axis=0)
-            vac_wavelength = self.n.x  # it is needed to correct x
-            result = Multilayer(layer_names, thicknesses, interp1d(vac_wavelength, n))
-            return result
-        else:
+        if not isinstance(other, Multilayer):
             raise TypeError('can only concatenate Multilayer (not "%s") to Multilayer'
                             % (type(other).__name__))
+
+        # print('add "%s" and "%s"' % (self.__repr__(), other.__repr__()))
+        layer_names = np.append(self.layer_names, other.layer_names)
+        thicknesses = np.append(self.thicknesses, other.thicknesses)
+        #TODO: interpolation is need to the addition of n and wavelength
+        n = np.append(self.n.y, other.n.y, axis=0)
+        vac_wavelength = self.n.x  # it is needed to correct x
+        result = Multilayer(layer_names, thicknesses, interp1d(vac_wavelength, n))
+        return result
 
     def __mul__(self, val):
         """
@@ -118,14 +120,15 @@ class Multilayer(object):
         :param val:
         :return:
         """
-        if isinstance(val, int):
-            #print('multiplies "%s" by %d' % (self.__repr__(), other))
-            result = copy.copy(self)
-            for i in range(val - 1):
-                result = result + self
-            return result
-        else:
+        if not isinstance(val, int):
             raise TypeError("Invalid multiplization type (%s)" % (type(val).__name__))
+
+        # print('multiplies "%s" by %d' % (self.__repr__(), other))
+        result = copy.copy(self)
+        for i in range(val - 1):
+            result = result + self
+        return result
+
 
     def __sub__(self, other):
         """
@@ -135,8 +138,9 @@ class Multilayer(object):
         """
         if not isinstance(other, Multilayer):
             raise TypeError('only Multilayer could be substratable')
+
         rep_self, rep_other = repr(self), repr(other)
-        print('substract "%s" from "%s"' % (rep_other, rep_self))
+        # print('substract "%s" from "%s"' % (rep_other, rep_self))
         index = rep_self.find(rep_other)
         if index == -1:
             raise LookupError('The structure "%s" does not include "%s"' % (rep_self, rep_other))
@@ -158,6 +162,7 @@ class Multilayer(object):
         mod = self.layers % other
         if mod != 0:
             raise ValueError("The Multilayer could not be divide by %d" % (other))
+
         div = self.layers // other
         div_result = []
         for i in range(other):
@@ -183,6 +188,7 @@ class Multilayer(object):
     def __eq__(self, other):
         if not isinstance(other, Multilayer):
             raise TypeError('could compare with %s' % (type(other)))
+
         return repr(self) == repr(other)
 
     def pop(self, index):
@@ -191,7 +197,8 @@ class Multilayer(object):
         :param index:
         :return:
         """
-        print("pop %dth layer" % (index+1))
+        # error handling could be at indexing (__getitem__)
+        # print("pop %dth layer" % (index+1))
         pop_item = self[index]
         self.layers -= 1
         self.layer_names = np.delete(self.layer_names, index)
@@ -199,9 +206,7 @@ class Multilayer(object):
         self.n = interp1d(self.n.x, np.delete(self.n.y, index, axis=0))
         return pop_item
 
-
 # test instance
-
 a = Multilayer(['ITO', 'PEDOT'], [200, 50],
                   [[1.5+0.001j, 1.5+0.0001j, 1.6+0.0001j], [1.3+0.05j, 1.4+0.05j, 1.5+0.05j]],
                   vac_wavelength=[300, 500, 700], active_layer = 2)

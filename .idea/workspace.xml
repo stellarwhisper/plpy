@@ -2,10 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="353eff47-2e98-44ef-b819-6c1cd69355bf" name="Default Changelist" comment="Set multilayer object could be calcuated with itselves.">
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/plpy.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/plpy.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/plpy/optic_env.py" beforeDir="false" afterPath="$PROJECT_DIR$/plpy/optic_env.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -118,7 +115,8 @@
       <workItem from="1610597790992" duration="15749000" />
       <workItem from="1610678040467" duration="8197000" />
       <workItem from="1610939334577" duration="948000" />
-      <workItem from="1610942876655" duration="14590000" />
+      <workItem from="1610942876655" duration="17238000" />
+      <workItem from="1611017826864" duration="2026000" />
     </task>
     <task id="LOCAL-00001" summary="Set initiative multilayer structure object">
       <created>1610529416758</created>
@@ -162,7 +160,14 @@
       <option name="project" value="LOCAL" />
       <updated>1610702153035</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="fixed the default methods in multilayer">
+      <created>1610961617243</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1610961617243</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -183,9 +188,21 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Set initiative multilayer structure object" />
     <MESSAGE value="Set multilayer object could be calcuated with itselves." />
-    <option name="LAST_COMMIT_MESSAGE" value="Set multilayer object could be calcuated with itselves." />
+    <MESSAGE value="fixed the default methods in multilayer" />
+    <option name="LAST_COMMIT_MESSAGE" value="fixed the default methods in multilayer" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/plpy/optic_env.py</url>
+          <line>193</line>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/plpy$optic_env.coverage" NAME="optic_env Coverage Results" MODIFIED="1610958761532" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/plpy" />
+    <SUITE FILE_PATH="coverage/plpy$optic_env.coverage" NAME="optic_env Coverage Results" MODIFIED="1610961576364" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/plpy" />
   </component>
 </project>
